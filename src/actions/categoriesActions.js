@@ -1,11 +1,12 @@
 import * as types from '../constants/actionTypes';
 
 
-export function addCategory(data) {
+export function addCategory(name) {
   return function (dispatch) {
+    let cid = 'c' + Date.now();
     return dispatch({
       type: types.ADD_CATEGORY,
-      data
+      data: {cid,name}
     });
   };
 }

@@ -1,13 +1,19 @@
-import {ADD_CATEGORY, REMOVE_CATEGORY,EDIT_CATEGORY } from '../constants/actionTypes';
+/**
+ * Created by oren on 8/25/16.
+ */
 import {fromJS, Record} from 'immutable';
 import initialState from './initialState';
 
-export default function categoriesReducer(state = initialState.categories, action) {
-  let newState;
+const {
+  ADD_CATEGORY, 
+  REMOVE_CATEGORY,
+  EDIT_CATEGORY 
+} = require( '../constants/actionTypes');
 
+export default function categoriesReducer(state = initialState, action) {
   switch (action.type) {
     case ADD_CATEGORY:
-      return state.set('categories', fromJS(action.data));
+      return state.setIn(['categories',action.data.cid],action.data.name);
     case REMOVE_CATEGORY:
       return state;
 

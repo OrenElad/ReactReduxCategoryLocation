@@ -1,25 +1,5 @@
-"use strict";
-
-import { createStore, applyMiddleware } from 'redux';
-import thunk from 'redux-thunk';
-
-import rootReducer from '../reducers/index';
-import InitialState from '../reducers/initialState';
-
-const createStoreWithMiddleware = applyMiddleware(
-  thunk
-)(createStore);
-
-export default function configureStore(initialState) {
-  return createStoreWithMiddleware(rootReducer, initialState);
-};
-
-function getInitialState() {
-  return {
-    initialState: new InitialState()
-  };
+if (process.env.NODE_ENV === 'production') {
+  module.exports = require('./configureStore.prod');
+} else {
+  module.exports = require('./configureStore.dev');
 }
-
-const store = configureStore(getInitialState());
-
-export default store;

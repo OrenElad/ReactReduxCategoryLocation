@@ -1,14 +1,8 @@
 "use strict";
-import {Record, Map, List} from 'immutable';
+import {Record, Map, OrderedMap} from 'immutable';
 
-const InitialState = Record({
-  categories: List(),
-  location: {
-    name: 'A',
-    address: 'A1',
-    coordinates: [],
-    category: ''
-  }
+const InitialState = Map({
+  categories: OrderedMap()
 });
 
 export default InitialState;

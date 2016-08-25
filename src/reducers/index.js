@@ -7,7 +7,7 @@ import {routerReducer} from 'react-router-redux';
 const rootReducer = combineReducers({
   //fuelSavings,
   categories,
-  location,
+  // location,
   routing: routerReducer
 });
 
