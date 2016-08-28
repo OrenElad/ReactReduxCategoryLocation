@@ -41,4 +41,17 @@ td.fuel-savings-label { width: 175px; }
   padding-top: 2vw;
   padding-left: 2vw;
 }
+.category-list {
+  width: 50vw;
+}
+.category-view {
+  align-self: flex-start;
+  color: blue;
+}
+.categories-view {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
 

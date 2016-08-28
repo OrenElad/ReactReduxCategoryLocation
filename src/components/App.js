@@ -1,17 +1,16 @@
 import React, { PropTypes } from 'react';
-import { Link, IndexLink, browserHistory } from 'react-router';
+import { Route, Router, browserHistory } from 'react-router';
+import Categories from './Category/Categories';
+import CategoryEdit from './Category/CategoryEdit';
+import CategoryAdd from './Category/CategoryAdd';
 
 const App = (props) => {
   return (
-    <div>
-      <IndexLink to="/">Home</IndexLink>
-      {' | '}
-      <Link to="/categories">Categories</Link>
-      {' | '}
-      <Link to="/locations">Locations</Link>
-      <br/>
-      {props.children}
-    </div>
+  <Router history={ browserHistory }>
+    <Route path="/" component={Categories}></Route>
+    <Route path="/add_category" component={CategoryAdd}></Route>
+    <Route path="/edit_category" component={CategoryEdit}></Route>
+  </Router>
   );
 };
 

@@ -5,7 +5,7 @@
 "use strict";
 
 import React, { Component } from 'react';
-import Categories from '../components/Categories';
+import Categories from '../components/Category/Categories';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 

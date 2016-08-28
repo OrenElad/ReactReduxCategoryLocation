@@ -28,3 +28,13 @@ export function editCategory(data) {
     });
   };
 }
+
+export function viewCategory(currentId) {
+  return function (dispatch) {
+    return dispatch({
+      type: types.VIEW_CATEGORY,
+      data:{currentId}
+    });
+  };
+}
+
