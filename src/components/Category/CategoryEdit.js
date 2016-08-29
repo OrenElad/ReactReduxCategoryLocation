@@ -39,26 +39,25 @@ class CategoryEdit extends React.Component {
     super(props);
 
     this.state = {
-      addValue: ''
+      editedValue: ''
     };
   }
 
   handleChange = (event) => {
-    this.setState({addValue: event.target.value});
+    this.setState({editedValue: event.target.value});
   };
 
   handleClick = () => {
     let categoriesLocal = JSON.parse(localStorage.getItem('Categories')),
       self = this,
       hasValue = false;
-      self.props.actions.editCategory(this.props.currentId,self.state.addValue);
+      self.props.actions.editCategory(this.props.currentId,self.state.editedValue);
     _.forEach(categoriesLocal, function(value,key){
-      if(self.state.addValue == value){
+      if(self.state.editedValue == value){
         alert("The Category exist, Please add a new one");
         hasValue = true;
       }
     });
-    localStorage.setItem('AddedCategory', [this.state.addValue]);
     !hasValue && browserHistory.goBack();
   };
 

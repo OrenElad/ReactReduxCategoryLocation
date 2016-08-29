@@ -2,6 +2,7 @@ import * as types from '../constants/actionTypes';
 var _ = require('lodash');
 
 export function initialCategoriesList() {
+  console.log('initAction');
   return function (dispatch) {
     let data = JSON.parse(localStorage.getItem('Categories'));
     localStorage.setItem('AddedCategory',['School'])
@@ -14,6 +15,7 @@ export function initialCategoriesList() {
 
 
 export function addCategory(name) {
+  console.log('addAction');
   return function (dispatch) {
     let cid = 'c' + Date.now(),categoriesLocalStorage = {},currentLocalStorage;
     if(name){
@@ -30,9 +32,9 @@ export function addCategory(name) {
 }
 
 export function removeCategory(data) {
+  console.log('rmAction');
   return function (dispatch) {
     let lsList = JSON.parse(localStorage.getItem('Categories'));
-        console.log(111,lsList[data],lsList,data);
         delete lsList[data];
         localStorage.removeItem('Categories');
         localStorage.setItem('Categories',JSON.stringify(lsList));
@@ -43,11 +45,16 @@ export function removeCategory(data) {
   };
 }
 
-export function editCategory(data) {
+export function editCategory(cid,name) {
+  console.log('editAction');
+  let lsList = JSON.parse(localStorage.getItem('Categories'));
+  Object.assign(lsList,{[cid]:name});
+  localStorage.setItem('Categories',JSON.stringify(lsList));
+  localStorage.setItem('AddedCategory',[name])
   return function (dispatch) {
     return dispatch({
       type: types.EDIT_CATEGORY,
-      data
+      data: {cid,name}
     });
   };
 }

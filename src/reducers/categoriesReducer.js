@@ -5,7 +5,7 @@ import {fromJS, Record, OrderedMap} from 'immutable';
 import initialState from './initialState';
 
 const {
-  ADD_CATEGORY, 
+  ADD_CATEGORY,
   REMOVE_CATEGORY,
   EDIT_CATEGORY,
   VIEW_CATEGORY,
@@ -23,7 +23,7 @@ export default function categoriesReducer(state = initialState, action) {
     case REMOVE_CATEGORY:
       return state.deleteIn(['categories',action.data]);
     case EDIT_CATEGORY:
-          return state;
+      return state.updateIn(['categories',action.data.cid], val =>action.data.name);
     default:
       return state;
   }

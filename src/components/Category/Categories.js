@@ -96,7 +96,6 @@ class Categories extends React.Component {
     !hasValue && this.props.actions.addCategory(localStorage.getItem('AddedCategory'));
   }
 
-
   renderCategoriesList(){
     return this.props.categoriesList.map(function (category,index) {
         return <ListItem
