@@ -16,6 +16,7 @@ import Subheader from 'material-ui/Subheader';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MdChevronRight from 'react-icons/lib/md/chevron-right';
 import MainToolbar from '../MainToolbar';
+import Footer from '../Footer.js';
 
 function mapStateToProps(state) {
   return {
@@ -127,6 +128,7 @@ class Categories extends React.Component {
             <p className="category-details">{typeof this.props.categoriesList.get(this.props.currentId) !== 'undefined' && `Category name:  ${this.props.categoriesList.get(this.props.currentId)}`}</p>
           </div>
         </div>
+        <Footer />
       </div>
     );
   }
