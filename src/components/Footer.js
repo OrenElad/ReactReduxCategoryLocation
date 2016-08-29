@@ -16,28 +16,36 @@ import FaLocationArrow from 'react-icons/lib/fa/location-arrow';
 class MainToolbar extends React.Component {
   constructor() {
     super();
-    this.state = {};
+    this.state = {sliderIndex:0};
   }
 
-
-  handleTouchTap(type){
-
+  componentWillUpdate(nextProps,nextState){
+    if(nextState.sliderIndex !== this.state.sliderIndex){
+      this.state.sliderIndex == 1 ? browserHistory.push('/') : browserHistory.push('/locations');
+    }
   }
+  handleChange = (value) => {
+    this.setState({
+      sliderIndex: value
+    });
+  };
 
   render() {
     return (<div className="footer">
       <MuiThemeProvider>
         <Tabs
-          value={this.state.value}
+          value={this.state.slideIndex}
           onChange={this.handleChange}
           >
           <Tab
             icon={<FaAlignJustify/>}
             label="Categories"
+            value={0}
             />
           <Tab
             icon={<FaLocationArrow/>}
             label="Locations"
+            value={1}
             />
         </Tabs>
 
