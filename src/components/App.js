@@ -4,6 +4,7 @@ import Categories from './Category/Categories';
 import CategoryEdit from './Category/CategoryEdit';
 import CategoryAdd from './Category/CategoryAdd';
 
+
 const App = (props) => {
   return (
   <Router history={ browserHistory }>

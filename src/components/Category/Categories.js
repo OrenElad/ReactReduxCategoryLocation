@@ -8,6 +8,7 @@ import {connect} from 'react-redux';
 import {Map} from 'immutable';
 import * as categoriesActions from '../../actions/categoriesActions';
 import { browserHistory } from 'react-router'
+var _ = require('lodash')
 
 
 import {List, ListItem,MakeSelectable} from 'material-ui/List';
@@ -79,14 +80,20 @@ class Categories extends React.Component {
 
   constructor() {
     super();
-    this.state = {
-      // categories: ["Education","Hospital","Restaurant"]
-    };
+    this.state = {};
   }
 
   componentDidMount(){
-    this.props.actions.addCategory('Test1');
-    this.props.actions.addCategory('Test2');
+    console.log(localStorage.getItem('Categories'));
+    (this.props.categoriesList.count() == 0) && this.props.actions.initialCategoriesList();
+    let categoriesLocal = JSON.parse(localStorage.getItem('Categories')),
+      hasValue = false;
+    _.forEach(categoriesLocal, function(value,key){
+      if(localStorage.getItem('AddedCategory') == value){
+        hasValue = true;
+      }
+    });
+    !hasValue && this.props.actions.addCategory(localStorage.getItem('AddedCategory'));
   }
 
 
@@ -97,28 +104,28 @@ class Categories extends React.Component {
                   value= {index}
                   primaryText={category}
                   leftIcon={<MdChevronRight/>}
-                  />
+                  className="list-item"/>
     }).toArray()
   }
 
     render(){
     return (
       <div>
-        <MainToolbar/>
+        <MainToolbar currentId = {this.props.currentId} actions={this.props.actions}/>
         <div className="categories-view">
           <div className="category-list">
           <MuiThemeProvider>
             <List>
               <SelectableList defaultValue={1} actions={this.props.actions} >
-                <Subheader inset={true}>Categories</Subheader>
+                <h2 className="header-class">List of Categories</h2>
                 {this.renderCategoriesList()}
               </SelectableList>
             </List>
           </MuiThemeProvider>
           </div>
           <div className="category-view">
-            <h3>Category</h3>
-            <p>{this.props.categoriesList.get(this.props.currentId)}</p>
+            <h2 className="category-details-header">Category details</h2>
+            <p className="category-details">{typeof this.props.categoriesList.get(this.props.currentId) !== 'undefined' && `Category name:  ${this.props.categoriesList.get(this.props.currentId)}`}</p>
           </div>
         </div>
       </div>

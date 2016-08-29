@@ -7,7 +7,7 @@ $vin-red: #ff0000;
 body {
   font: 14px 'Helvetica Neue', Helvetica, Arial, sans-serif;
   line-height: 1.4em;
-  color: #4d4d4d;
+  color: rgb(0, 188, 212);
   min-width: 230px;
   margin: 0 auto;
   -webkit-font-smoothing: antialiased;
@@ -20,8 +20,11 @@ td {
 	padding: 12px;
 }
 
+h1 {
+  color: rgb(0, 188, 212);
+}
 h2 {
-	color: $vin-blue;
+	color: rgb(0, 188, 212);
 }
 
 .savings { color: $vin-green; }
@@ -45,13 +48,38 @@ td.fuel-savings-label { width: 175px; }
   width: 50vw;
 }
 .category-view {
+  padding-left: 2vw;
   align-self: flex-start;
-  color: blue;
+  color: rgb(0, 188, 212);
 }
 .categories-view {
   display: flex;
   flex-direction: row;
   justify-content: flex-start;
   align-items: center;
+}
+.category-add{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: baseline;
+}
+.category-add-component {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.header-class{
+  padding-left: 5vw;
+}
+.category-details-header{
+  padding-top: 1.5vw;
+}
+.category-details{
+  font-weight: 600;
+}
+.list-item {
+  color: rgb(0, 188, 212);
 }
 

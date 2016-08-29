@@ -10,7 +10,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 
 class Main extends Component {
-  render() {
+
+    render() {
     return (
       <div>
         <MuiThemeProvider>

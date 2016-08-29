@@ -5,9 +5,7 @@ import React from 'react';
 import {Toolbar, ToolbarGroup,ToolbarTitle} from 'material-ui/Toolbar';
 import RaisedButton from 'material-ui/RaisedButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { browserHistory } from 'react-router'
-
-
+import { browserHistory } from 'react-router';
 
 
 class MainToolbar extends React.Component {
@@ -22,6 +20,7 @@ class MainToolbar extends React.Component {
         browserHistory.push('/edit_category');
         return;
       case 'REMOVE':
+        this.props.actions.removeCategory(this.props.currentId);
         return;
       default:
         return;
@@ -34,9 +33,9 @@ class MainToolbar extends React.Component {
         <Toolbar className = 'categories-toolbar'>
           <ToolbarGroup>
             <ToolbarTitle className = 'category-title' text= "My Locations" />
-            <RaisedButton onTouchTap = {this.handleTouchTap.bind(this,"ADD")} label="Add" primary={true} />
-            <RaisedButton onTouchTap = {this.handleTouchTap.bind(this,"REMOVE")} label="Remove" primary={true} />
-            <RaisedButton onTouchTap = {this.handleTouchTap.bind(this,"EDIT")} label="Edit" primary={true} />
+            <RaisedButton onTouchTap = {this.handleTouchTap.bind(this,"ADD")} label="Add" primary={true} disabled={this.props.disabledButtons}/>
+            <RaisedButton onTouchTap = {this.handleTouchTap.bind(this,"REMOVE")} label="Remove" primary={true} disabled={this.props.disabledButtons}/>
+            <RaisedButton onTouchTap = {this.handleTouchTap.bind(this,"EDIT")} label="Edit" primary={true} disabled={this.props.disabledButtons}/>
           </ToolbarGroup>
         </Toolbar>
       </MuiThemeProvider>
