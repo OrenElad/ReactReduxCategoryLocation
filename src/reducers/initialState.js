@@ -3,7 +3,8 @@ import {Record, Map, OrderedMap} from 'immutable';
 
 const InitialState = Map({
   categories: OrderedMap(),
-  currentId: ''
+  currentId: '',
+  locations: OrderedMap()
 });
 
 export default InitialState;

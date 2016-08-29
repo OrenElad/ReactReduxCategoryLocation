@@ -5,7 +5,7 @@ import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Map} from 'immutable';
-import * as categoriesActions from '../../actions/categoriesActions';
+import * as locationsActions from '../../actions/LocationsActions';
 import { browserHistory } from 'react-router'
 var _ = require('lodash')
 
@@ -19,12 +19,12 @@ import Footer from '../Footer.js';
 
 function mapStateToProps(state) {
   return {
-    categoriesList: state.categories.get("categories"),
-    currentId: state.categories.get("currentId")
+    locationsList: state.locations.get("locations"),
+    currentId: state.locations.get("currentId")
   };
 }
 
-const actions = [categoriesActions];
+const actions = [locationsActions];
 
 function mapDispatchToProps(dispatch) {
   const creators = Map()
@@ -57,7 +57,7 @@ function wrapState(ComposedComponent) {
       this.setState({
         selectedIndex: index
       });
-      this.props.actions.viewCategory(index);
+      this.props.actions.viewLocation(index);
       console.log(index);
     };
 
@@ -76,7 +76,7 @@ function wrapState(ComposedComponent) {
 
 SelectableList = wrapState(SelectableList);
 
-class Categories extends React.Component {
+class Locations extends React.Component {
 
   constructor() {
     super();
@@ -84,24 +84,15 @@ class Categories extends React.Component {
   }
 
   componentDidMount(){
-    console.log(localStorage.getItem('Categories'));
-    (this.props.categoriesList.count() == 0) && this.props.actions.initialCategoriesList();
-    let categoriesLocal = JSON.parse(localStorage.getItem('Categories')),
-      hasValue = false;
-    _.forEach(categoriesLocal, function(value,key){
-      if(localStorage.getItem('AddedCategory') == value){
-        hasValue = true;
-      }
-    });
-    !hasValue && this.props.actions.addCategory(localStorage.getItem('AddedCategory'));
+
   }
 
-  renderCategoriesList(){
-    return this.props.categoriesList.map(function (category,index) {
+  renderLocationsList(){
+    return this.props.locationsList.map(function (location,index) {
       return <ListItem
         key= {index}
         value= {index}
-        primaryText={category}
+        primaryText={location}
         leftIcon={<MdChevronRight/>}
         className="list-item"/>
     }).toArray()
@@ -111,20 +102,20 @@ class Categories extends React.Component {
     return (
       <div>
         <MainToolbar currentId = {this.props.currentId} actions={this.props.actions}/>
-        <div className="categories-view">
+        <div className="Categories-view">
           <div className="category-list">
             <MuiThemeProvider>
               <List>
                 <SelectableList defaultValue={1} actions={this.props.actions} >
                   <h2 className="header-class">List of Locations</h2>
-                  {this.renderCategoriesList()}
+                  {this.renderLocationsList()}
                 </SelectableList>
               </List>
             </MuiThemeProvider>
           </div>
           <div className="category-view">
             <h2 className="category-details-header">Location details</h2>
-            <p className="category-details">{typeof this.props.categoriesList.get(this.props.currentId) !== 'undefined' && `Category name:  ${this.props.categoriesList.get(this.props.currentId)}`}</p>
+            <p className="category-details">{typeof this.props.locationsList.get(this.props.currentId) !== 'undefined' && `Location name:  ${this.props.LocationsList.get(this.props.currentId)}`}</p>
           </div>
         </div>
         <Footer />
@@ -133,4 +124,4 @@ class Categories extends React.Component {
   }
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Categories);
+export default connect(mapStateToProps, mapDispatchToProps)(Locations);
