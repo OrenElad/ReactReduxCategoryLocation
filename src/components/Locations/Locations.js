@@ -57,7 +57,6 @@ function wrapState(ComposedComponent) {
         selectedIndex: index
       });
       this.props.actions.viewLocation(index);
-      console.log(index);
     };
 
     render() {
@@ -92,7 +91,6 @@ class Locations extends React.Component {
 
   renderLocationsList(){
     return this.props.locationsList.map(function (location,index) {
-      console.log(11,index,location);
       return <ListItem
         key= {index}
         value= {index}
@@ -101,7 +99,17 @@ class Locations extends React.Component {
         className="list-item"/>
     }).toArray()
   }
-
+  getLocationDetails (){
+    let local = {};
+    Object.assign(local,this.props.locationsList.get(this.props.currentId));
+    return (<div><p className="category-details">
+              {typeof this.props.locationsList.get(this.props.currentId) !== 'undefined'
+                && `Name:  ${local.name} Address:  ${local.address}`}</p>
+              <p className="category-details">
+                {typeof this.props.locationsList.get(this.props.currentId) !== 'undefined'
+                && `Coordinate X: ${local.coordinateX} Coordinate Y: ${local.coordinateX}`}</p>
+            </div>)
+  };
   render(){
     return (
       <div>
@@ -119,7 +127,7 @@ class Locations extends React.Component {
           </div>
           <div className="category-view">
             <h2 className="category-details-header">Location details</h2>
-            <p className="category-details">{typeof this.props.locationsList.get(this.props.currentId) !== 'undefined' && `Location name:  ${this.props.LocationsList.get(this.props.currentId)}`}</p>
+            {this.getLocationDetails()}
           </div>
         </div>
         <Footer />

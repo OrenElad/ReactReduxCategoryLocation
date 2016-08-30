@@ -59,7 +59,6 @@ function wrapState(ComposedComponent) {
         selectedIndex: index
       });
       this.props.actions.viewCategory(index);
-      console.log(index);
     };
 
     render() {

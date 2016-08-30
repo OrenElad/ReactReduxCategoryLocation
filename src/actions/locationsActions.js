@@ -58,6 +58,7 @@ export function editLocation(cid,name) {
 }
 
 export function viewLocation(currentId) {
+  console.log('viewLocationAction');
   return function (dispatch) {
     return dispatch({
       type: types.VIEW_LOCATION,

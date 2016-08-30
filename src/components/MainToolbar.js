@@ -20,7 +20,7 @@ class MainToolbar extends React.Component {
         this.props.toggleCategories ? browserHistory.push('/edit_category') : browserHistory.push('/edit_location');
         return;
       case 'REMOVE':
-        this.props.toggleCategories ? this.props.actions.removeCategory(this.props.currentId) : console.log("...location removed");
+        this.props.toggleCategories ? this.props.actions.removeCategory(this.props.currentId) : this.props.actions.removeLocation(this.props.currentId);
         return;
       default:
         return;
