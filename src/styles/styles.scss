@@ -82,6 +82,16 @@ td.fuel-savings-label { width: 175px; }
 .list-item {
   color: rgb(0, 188, 212);
 }
+.location-add{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: baseline;
+}
+.location-save{
+  align-self: center;
+}
+
 .footer {
   position: absolute;
   bottom: 0.1vw;

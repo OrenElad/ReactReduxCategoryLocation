@@ -2,7 +2,7 @@ import * as types from '../constants/actionTypes';
 var _ = require('lodash');
 
 export function initialCategoriesList() {
-  console.log('initAction');
+  console.log('initialCategoriesListAction');
   return function (dispatch) {
     let data = JSON.parse(localStorage.getItem('Categories'));
     localStorage.setItem('AddedCategory',['School'])
@@ -15,7 +15,7 @@ export function initialCategoriesList() {
 
 
 export function addCategory(name) {
-  console.log('addAction');
+  console.log('addCategoryAction');
   return function (dispatch) {
     let cid = 'c' + Date.now(),categoriesLocalStorage = {},currentLocalStorage;
     if(name){
@@ -32,7 +32,7 @@ export function addCategory(name) {
 }
 
 export function removeCategory(data) {
-  console.log('rmAction');
+  console.log('removeCategoryAction');
   return function (dispatch) {
     let lsList = JSON.parse(localStorage.getItem('Categories'));
         delete lsList[data];
@@ -46,7 +46,7 @@ export function removeCategory(data) {
 }
 
 export function editCategory(cid,name) {
-  console.log('editAction');
+  console.log('editCategoryAction');
   let lsList = JSON.parse(localStorage.getItem('Categories'));
   Object.assign(lsList,{[cid]:name});
   localStorage.setItem('Categories',JSON.stringify(lsList));

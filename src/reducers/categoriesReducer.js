@@ -1,7 +1,7 @@
 /**
  * Created by oren on 8/25/16.
  */
-import {fromJS, Record, OrderedMap} from 'immutable';
+import {OrderedMap} from 'immutable';
 import initialState from './initialState';
 
 const {

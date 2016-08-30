@@ -6,10 +6,9 @@ import * as types from '../constants/actionTypes';
 var _ = require('lodash');
 
 export function initialLocationsList() {
-  console.log('initAction');
+  console.log('initialLocationsListAction');
   return function (dispatch) {
     let data = JSON.parse(localStorage.getItem('Locations'));
-    localStorage.setItem('AddedLocation',['School'])
     return dispatch({
       type: types.INITIAL_LOCATIONS_LIST,
       data
@@ -18,25 +17,20 @@ export function initialLocationsList() {
 }
 
 
-export function addLocation(name) {
-  console.log('addAction');
+export function addLocation(dataLocation) {
+  console.log('addLocationAction');
   return function (dispatch) {
-    let cid = 'c' + Date.now(),locationsLocalStorage = {},currentLocalStorage;
-    if(name){
-      locationsLocalStorage[cid] = name;
-      currentLocalStorage = JSON.parse(localStorage.getItem('Locations'));
-      Object.assign(locationsLocalStorage,currentLocalStorage);
-      localStorage.setItem('Locations',JSON.stringify(locationsLocalStorage));
-    }
+    let lid = 'l' + Date.now(),locationsLocalStorage = {},currentLocalStorage;
+    localStorage.setItem('AddedLocation',[lid])
     return dispatch({
       type: types.ADD_LOCATION,
-      data: {cid,name}
+      data: {lid,dataLocation}
     });
   };
 }
 
 export function removeLocation(data) {
-  console.log('rmAction');
+  console.log('removeLocationAction');
   return function (dispatch) {
     let lsList = JSON.parse(localStorage.getItem('Locations'));
     delete lsList[data];
@@ -50,7 +44,7 @@ export function removeLocation(data) {
 }
 
 export function editLocation(cid,name) {
-  console.log('editAction');
+  console.log('editLocationAction');
   let lsList = JSON.parse(localStorage.getItem('Locations'));
   Object.assign(lsList,{[cid]:name});
   localStorage.setItem('Locations',JSON.stringify(lsList));

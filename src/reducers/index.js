@@ -1,13 +1,12 @@
 import { combineReducers } from 'redux';
 import fuelSavings from './fuelSavingsReducer';
 import categories from './categoriesReducer';
-import location from './locationReducer';
+import locations from './locationsReducer';
 import {routerReducer} from 'react-router-redux';
 
 const rootReducer = combineReducers({
-  //fuelSavings,
   categories,
-  // location,
+  locations,
   routing: routerReducer
 });
 

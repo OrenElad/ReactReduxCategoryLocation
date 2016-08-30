@@ -14,13 +14,13 @@ class MainToolbar extends React.Component {
     console.log(type);
     switch (type) {
       case 'ADD':
-        browserHistory.push('/add_category');
+        this.props.toggleCategories ? browserHistory.push('/add_category') : browserHistory.push('/add_location');
         return;
       case 'EDIT':
-        browserHistory.push('/edit_category');
+        this.props.toggleCategories ? browserHistory.push('/edit_category') : browserHistory.push('/edit_location');
         return;
       case 'REMOVE':
-        this.props.actions.removeCategory(this.props.currentId);
+        this.props.toggleCategories ? this.props.actions.removeCategory(this.props.currentId) : console.log("...location removed");
         return;
       default:
         return;

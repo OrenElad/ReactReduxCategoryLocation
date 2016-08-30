@@ -111,7 +111,7 @@ class Categories extends React.Component {
     render(){
     return (
       <div>
-        <MainToolbar currentId = {this.props.currentId} actions={this.props.actions}/>
+        <MainToolbar currentId = {this.props.currentId} actions={this.props.actions} toggleCategories = {true}/>
         <div className="categories-view">
           <div className="category-list">
           <MuiThemeProvider>

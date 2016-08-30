@@ -11,7 +11,6 @@ var _ = require('lodash')
 
 
 import {List, ListItem,MakeSelectable} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MdChevronRight from 'react-icons/lib/md/chevron-right';
 import MainToolbar from '../MainToolbar';
@@ -84,15 +83,20 @@ class Locations extends React.Component {
   }
 
   componentDidMount(){
+    console.log(localStorage.getItem('Locations'));
+    (this.props.locationsList.count() == 0) && this.props.actions.initialLocationsList();
+   
+    // this.props.actions.addLocation(localStorage.getItem('AddedLocation'));
 
   }
 
   renderLocationsList(){
     return this.props.locationsList.map(function (location,index) {
+      console.log(11,index,location);
       return <ListItem
         key= {index}
         value= {index}
-        primaryText={location}
+        primaryText={location.name}
         leftIcon={<MdChevronRight/>}
         className="list-item"/>
     }).toArray()
@@ -101,8 +105,8 @@ class Locations extends React.Component {
   render(){
     return (
       <div>
-        <MainToolbar currentId = {this.props.currentId} actions={this.props.actions}/>
-        <div className="Categories-view">
+        <MainToolbar currentId = {this.props.currentId} actions={this.props.actions} toggleCategories = {false}/>
+        <div className="categories-view">
           <div className="category-list">
             <MuiThemeProvider>
               <List>
