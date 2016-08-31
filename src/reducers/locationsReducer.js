@@ -24,7 +24,7 @@ export default function locationsReducer(state = initialState, action) {
     case REMOVE_LOCATION:
       return state.deleteIn(['locations',action.data]);
     case EDIT_LOCATION:
-      return state.updateIn(['locations',action.data.cid], val =>action.data.name);
+      return state.updateIn(['locations',action.data.lid], val =>action.data.dataLocation);
     default:
       return state;
   }

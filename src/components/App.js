@@ -15,7 +15,7 @@ const App = (props) => {
     <Route path="/edit_category" component={CategoryEdit}></Route>
     <Route path="/locations" component={Locations}></Route>
     <Route path="/add_location" component={LocationAdd}></Route>
-    <Route path="/edit_locatio" component={LocationEdit}></Route>
+    <Route path="/edit_location" component={LocationEdit}></Route>
   </Router>
   );
 };

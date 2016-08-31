@@ -69,7 +69,7 @@ class LocationAdd extends React.Component {
       let locationsLocal = JSON.parse(localStorage.getItem('Locations')),
         hasValue = false;
       _.forEach(locationsLocal, function (value, key) {
-        if (localStorage.getItem('AddedLocation') == value) {
+        if (localStorage.getItem('LocationId') == value) {
           hasValue = true;
         }
       });
@@ -128,7 +128,7 @@ class LocationAdd extends React.Component {
         }
       });
       this.props.actions.addLocation(this.locationAddData);
-      locationObj[localStorage.getItem('AddedLocation')] = this.locationAddData;
+      locationObj[localStorage.getItem('LocationId')] = this.locationAddData;
       currentLocalStorage = JSON.parse(localStorage.getItem('Locations'));
       Object.assign(locationObj,currentLocalStorage);
       localStorage.setItem('Locations', JSON.stringify(locationObj));

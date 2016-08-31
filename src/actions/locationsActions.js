@@ -20,8 +20,8 @@ export function initialLocationsList() {
 export function addLocation(dataLocation) {
   console.log('addLocationAction');
   return function (dispatch) {
-    let lid = 'l' + Date.now(),locationsLocalStorage = {},currentLocalStorage;
-    localStorage.setItem('AddedLocation',[lid])
+    let lid = 'l' + Date.now();
+    localStorage.setItem('LocationId',[lid])
     return dispatch({
       type: types.ADD_LOCATION,
       data: {lid,dataLocation}
@@ -43,22 +43,22 @@ export function removeLocation(data) {
   };
 }
 
-export function editLocation(cid,name) {
+export function editLocation(dataLocation) {
   console.log('editLocationAction');
-  let lsList = JSON.parse(localStorage.getItem('Locations'));
-  Object.assign(lsList,{[cid]:name});
+  let lsList = {},lid=localStorage.getItem('LocationId');
+  lsList[lid] = dataLocation;
   localStorage.setItem('Locations',JSON.stringify(lsList));
-  localStorage.setItem('AddedLocation',[name])
   return function (dispatch) {
     return dispatch({
       type: types.EDIT_LOCATION,
-      data: {cid,name}
+      data: {lid,dataLocation}
     });
   };
 }
 
 export function viewLocation(currentId) {
   console.log('viewLocationAction');
+  localStorage.setItem('LocationId',[currentId]);
   return function (dispatch) {
     return dispatch({
       type: types.VIEW_LOCATION,

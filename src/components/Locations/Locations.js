@@ -5,7 +5,7 @@ import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Map} from 'immutable';
-import * as locationsActions from '../../actions/LocationsActions';
+import * as locationsActions from '../../actions/locationsActions';
 import { browserHistory } from 'react-router'
 var _ = require('lodash')
 
@@ -84,8 +84,8 @@ class Locations extends React.Component {
   componentDidMount(){
     console.log(localStorage.getItem('Locations'));
     (this.props.locationsList.count() == 0) && this.props.actions.initialLocationsList();
-   
-    // this.props.actions.addLocation(localStorage.getItem('AddedLocation'));
+
+    // this.props.actions.addLocation(localStorage.getItem('LocationId'));
 
   }
 

@@ -1,26 +1,35 @@
 /**
  * Created by oren on 8/28/16.
  */
-import React from 'react';
-import * as categoriesActions from '../../actions/categoriesActions';
+import React , {PropTypes}from 'react';
 import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MainToolbar from '../MainToolbar';
-import { browserHistory } from 'react-router'
-import {connect} from 'react-redux';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 import {bindActionCreators} from 'redux';
+import {connect} from 'react-redux';
 import {Map} from 'immutable';
+import * as categoriesActions from '../../actions/categoriesActions';
+import * as locationsActions from '../../actions/locationsActions';
 
+
+import { browserHistory } from 'react-router'
+var _ = require('lodash');
 
 function mapStateToProps(state) {
   return {
     categoriesList: state.categories.get("categories"),
-    currentId: state.categories.get("currentId")
+    currentId: state.categories.get("currentId"),
+    locationsList: state.locations.get("locations")
   };
 }
 
-const actions = [categoriesActions];
+const actions = [
+  locationsActions,
+  categoriesActions
+];
 
 function mapDispatchToProps(dispatch) {
   const creators = Map()
@@ -34,54 +43,166 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-class CategoryEdit extends React.Component {
+
+class LocationEdit extends React.Component {
+
   constructor(props) {
     super(props);
 
     this.state = {
-      editedValue: ''
+      addNameValue: null,
+      addAddressValue: null,
+      addCoordinateXValue: null,
+      addCoordinateYValue: null,
+      selectFieldValue: null,
+      enableSave: false
     };
+    this.locationAddData = {};
+    this.editLocationObj = {};
   }
 
-  handleChange = (event) => {
-    this.setState({editedValue: event.target.value});
+  componentWillMount(){
+    Object.assign(this.editLocationObj,this.props.locationsList.get(localStorage.getItem('LocationId')));
+  }
+  componentDidMount(){
+    (this.props.categoriesList.count() == 0) && this.props.actions.initialCategoriesList();
+  }
+  componentDidUpdate(prevProps,prevState) {
+    let locationData = {};
+    if (prevState.selectFieldValue !== this.state.selectFieldValue) {
+      let locationsLocal = JSON.parse(localStorage.getItem('Locations')),
+        hasValue = false;
+      _.forEach(locationsLocal, function (value, key) {
+        if (localStorage.getItem('LocationId') == value) {
+          hasValue = true;
+        }
+      });
+
+    }
+    if (prevState.addNameValue !== this.state.addNameValue) {
+      Object.assign({}, locationData, this.state.addNameValue);
+    }
+
+  }
+
+  handleNameChange = (event) => {
+    this.setState({addNameValue: event.target.value});
+    Object.assign(this.locationAddData,{name:event.target.value});
+
+  };
+  handleAddressChange = (event) => {
+    this.setState({addAddressValue: event.target.value});
+    Object.assign(this.locationAddData,{address:event.target.value});
+  };
+  handleCoordinateXChange = (event) => {
+    this.setState({addCoordinateXValue: event.target.value});
+    Object.assign(this.locationAddData,{coordinateX:event.target.value});
+  };
+  handleCoordinateYChange = (event) => {
+    this.setState({addCoordinateYValue: event.target.value});
+    Object.assign(this.locationAddData,{coordinateY:event.target.value});
+  };
+  handleSelectFieldChange = (event, index, value) => {
+    this.setState({selectFieldValue: value});
+    Object.assign(this.locationAddData,{cid: value});
+    console.log(this.locationAddData);
+
+
+    if(this.state.addNameValue !== null
+      && this.state.addAddressValue !== null
+      && this.state.addCoordinateXValue !== null
+      && this.state.addCoordinateYValue !== null
+      && this.state.selectFieldValue !== null ){
+      this.setState({enableSave: false});
+    };
+
+
   };
 
+
   handleClick = () => {
-    let categoriesLocal = JSON.parse(localStorage.getItem('Categories')),
+    let locationsLocal = JSON.parse(localStorage.getItem('Locations')),
       self = this,
+      locationValue = {},
+      currentLocalStorage,
       hasValue = false;
-      self.props.actions.editCategory(this.props.currentId,self.state.editedValue);
-    _.forEach(categoriesLocal, function(value,key){
-      if(self.state.editedValue == value){
-        alert("The Category exist, Please add a new one");
+    _.forEach(locationsLocal, function (value, key) {
+      if (self.state.addNameValue == value) {
+        alert("The Location exist, Please add a new one");
         hasValue = true;
       }
     });
+    this.locationAddData = JSON.parse(localStorage.getItem('Locations'));
+    this.props.actions.editLocation(this.locationAddData)
+    locationValue = localStorage.getItem('LocationId');
+    Object.assign(this.locationAddData,{locationValue:this.locationAddData.locationValue}) ;
+    localStorage.setItem('Locations', JSON.stringify(this.locationAddData));
     !hasValue && browserHistory.goBack();
   };
 
+
+  getCategoriesList(){
+    return this.props.categoriesList.map(function (category, index) {
+      return <MenuItem
+        key={index}
+        value={index}
+        primaryText={category}
+        />
+    }).toArray();
+  }
   render() {
     return (<div>
-      <MainToolbar disabledButtons={true}/>
-      <div className="category-add-component">
-        <h1>Edit Category</h1>
-        <div className="category-add">
-          <MuiThemeProvider>
-            <TextField
-              hintText="Name"
-              floatingLabelText="Edit Category Name"
-              defaultValue = {this.props.categoriesList.get(this.props.currentId)}
-              onChange={this.handleChange}/>
-          </MuiThemeProvider>
-          <MuiThemeProvider>
-            <FlatButton label="Save" primary={true} onClick={this.handleClick}/>
-          </MuiThemeProvider>
+        <MainToolbar disabledButtons={true}/>
+        <div className="category-add-component">
+          <h1>Edit Location</h1>
+          <div className="location-add">
+            <MuiThemeProvider>
+              <TextField
+                hintText="Name"
+                floatingLabelText="Enter Location Name"
+                defaultValue = { this.editLocationObj.name }
+                onChange={this.handleNameChange}/>
+            </MuiThemeProvider>
+            <MuiThemeProvider>
+              <TextField
+                hintText="Address"
+                floatingLabelText="Enter Location Address"
+                defaultValue = { this.editLocationObj.address }
+                onChange={this.handleAddressChange}
+                />
+            </MuiThemeProvider>
+            <MuiThemeProvider>
+              <TextField
+                hintText="Coordinate X"
+                floatingLabelText="Enter Location Coordinate X"
+                defaultValue = { this.editLocationObj.coordinateX }
+                onChange={this.handleCoordinateXChange}/>
+            </MuiThemeProvider>
+            <MuiThemeProvider>
+              <TextField
+                hintText="Coordinate Y"
+                floatingLabelText="Enter Location Coordinate Y"
+                defaultValue = { this.editLocationObj.coordinateY }
+                onChange={this.handleCoordinateYChange}/>
+            </MuiThemeProvider>
+            <MuiThemeProvider >
+              <SelectField
+                value={this.state.selectFieldValue || 'Choose your category'}
+                onChange={this.handleSelectFieldChange}
+                >
+                {this.getCategoriesList()}
+              </SelectField>
+
+            </MuiThemeProvider>
+            <MuiThemeProvider >
+              <FlatButton className="location-save" label="Save" primary={true} onClick={this.handleClick} disabled = {this.state.enableSave}/>
+            </MuiThemeProvider>
+          </div>
         </div>
       </div>
-    </div>)
+    );
   }
 
-}
+};
+export default connect(mapStateToProps, mapDispatchToProps)(LocationEdit);
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryEdit);
