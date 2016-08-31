@@ -7,12 +7,10 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Map} from 'immutable';
 import * as categoriesActions from '../../actions/categoriesActions';
-import { browserHistory } from 'react-router'
 var _ = require('lodash')
 
 
 import {List, ListItem,MakeSelectable} from 'material-ui/List';
-import Subheader from 'material-ui/Subheader';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MdChevronRight from 'react-icons/lib/md/chevron-right';
 import MainToolbar from '../MainToolbar';
@@ -127,7 +125,7 @@ class Categories extends React.Component {
             <p className="category-details">{typeof this.props.categoriesList.get(this.props.currentId) !== 'undefined' && `Category name:  ${this.props.categoriesList.get(this.props.currentId)}`}</p>
           </div>
         </div>
-        <Footer />
+        <Footer/>
       </div>
     );
   }

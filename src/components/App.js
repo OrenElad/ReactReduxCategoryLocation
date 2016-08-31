@@ -7,6 +7,7 @@ import Locations from './Locations/Locations.js';
 import LocationAdd from './Locations/LocationAdd';
 import LocationEdit from './Locations/LocationEdit';
 
+
 const App = (props) => {
   return (
   <Router history={ browserHistory }>

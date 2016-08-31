@@ -6,6 +6,7 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MainToolbar from '../MainToolbar';
+import Footer from '../Footer';
 import { browserHistory } from 'react-router'
 var _ = require('lodash');
 
@@ -56,6 +57,7 @@ class CategoryAdd extends React.Component {
                 </MuiThemeProvider>
               </div>
             </div>
+            <Footer/>
             </div>)
   }
 

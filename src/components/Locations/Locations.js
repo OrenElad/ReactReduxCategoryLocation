@@ -6,7 +6,6 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Map} from 'immutable';
 import * as locationsActions from '../../actions/locationsActions';
-import { browserHistory } from 'react-router'
 var _ = require('lodash')
 
 
@@ -128,7 +127,7 @@ class Locations extends React.Component {
             {this.getLocationDetails()}
           </div>
         </div>
-        <Footer />
+        <Footer/>
       </div>
     );
   }

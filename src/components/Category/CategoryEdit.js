@@ -7,6 +7,7 @@ import TextField from 'material-ui/TextField';
 import FlatButton from 'material-ui/FlatButton';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MainToolbar from '../MainToolbar';
+import Footer from '../Footer';
 import { browserHistory } from 'react-router'
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
@@ -78,6 +79,7 @@ class CategoryEdit extends React.Component {
             <FlatButton label="Save" primary={true} onClick={this.handleClick}/>
           </MuiThemeProvider>
         </div>
+        <Footer/>
       </div>
     </div>)
   }

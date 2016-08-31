@@ -8,6 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MainToolbar from '../MainToolbar';
 import SelectField from 'material-ui/SelectField';
 import MenuItem from 'material-ui/MenuItem';
+import Footer from '../Footer';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Map} from 'immutable';
@@ -190,6 +191,7 @@ class LocationAdd extends React.Component {
                 </MuiThemeProvider>
               </div>
             </div>
+        <Footer/>
             </div>
     );
   }
