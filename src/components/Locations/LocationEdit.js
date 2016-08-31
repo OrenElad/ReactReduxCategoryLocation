@@ -63,6 +63,9 @@ class LocationEdit extends React.Component {
 
   componentWillMount(){
     Object.assign(this.editLocationObj,this.props.locationsList.get(localStorage.getItem('LocationId')));
+    Object.assign(this.locationAddData,JSON.parse(localStorage.getItem('Locations')));
+    console.log(111,this.locationAddData);
+
   }
   componentDidMount(){
     (this.props.categoriesList.count() == 0) && this.props.actions.initialCategoriesList();
@@ -87,25 +90,25 @@ class LocationEdit extends React.Component {
 
   handleNameChange = (event) => {
     this.setState({addNameValue: event.target.value});
-    Object.assign(this.locationAddData,{name:event.target.value});
+    Object.assign(this.editLocationObj,{name:event.target.value});
 
   };
   handleAddressChange = (event) => {
     this.setState({addAddressValue: event.target.value});
-    Object.assign(this.locationAddData,{address:event.target.value});
+    Object.assign(this.editLocationObj,{address:event.target.value});
   };
   handleCoordinateXChange = (event) => {
     this.setState({addCoordinateXValue: event.target.value});
-    Object.assign(this.locationAddData,{coordinateX:event.target.value});
+    Object.assign(this.editLocationObj,{coordinateX:event.target.value});
   };
   handleCoordinateYChange = (event) => {
     this.setState({addCoordinateYValue: event.target.value});
-    Object.assign(this.locationAddData,{coordinateY:event.target.value});
+    Object.assign(this.editLocationObj,{coordinateY:event.target.value});
   };
   handleSelectFieldChange = (event, index, value) => {
     this.setState({selectFieldValue: value});
-    Object.assign(this.locationAddData,{cid: value});
-    console.log(this.locationAddData);
+    Object.assign(this.editLocationObj,{cid: value});
+    console.log('edit object: ',this.editLocationObj);
 
 
     if(this.state.addNameValue !== null
@@ -123,8 +126,8 @@ class LocationEdit extends React.Component {
   handleClick = () => {
     let locationsLocal = JSON.parse(localStorage.getItem('Locations')),
       self = this,
-      locationValue = {},
-      currentLocalStorage,
+      locationId ,
+      locationEditValue,
       hasValue = false;
     _.forEach(locationsLocal, function (value, key) {
       if (self.state.addNameValue == value) {
@@ -132,10 +135,11 @@ class LocationEdit extends React.Component {
         hasValue = true;
       }
     });
-    this.locationAddData = JSON.parse(localStorage.getItem('Locations'));
-    this.props.actions.editLocation(this.locationAddData)
-    locationValue = localStorage.getItem('LocationId');
-    Object.assign(this.locationAddData,{locationValue:this.locationAddData.locationValue}) ;
+    locationId = localStorage.getItem('LocationId');
+    this.props.actions.editLocation(locationId,this.editLocationObj);
+    locationEditValue = this.editLocationObj;
+    Object.assign(this.locationAddData,{[locationId]:locationEditValue}) ;
+    console.log('Handel Edit Click',this.locationAddData);
     localStorage.setItem('Locations', JSON.stringify(this.locationAddData));
     !hasValue && browserHistory.goBack();
   };

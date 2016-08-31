@@ -84,9 +84,7 @@ class Locations extends React.Component {
   componentDidMount(){
     console.log(localStorage.getItem('Locations'));
     (this.props.locationsList.count() == 0) && this.props.actions.initialLocationsList();
-
-    // this.props.actions.addLocation(localStorage.getItem('LocationId'));
-
+    console.log('render locations LS: ',JSON.parse(localStorage.getItem('Locations')));
   }
 
   renderLocationsList(){

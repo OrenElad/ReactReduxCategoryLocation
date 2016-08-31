@@ -43,11 +43,9 @@ export function removeLocation(data) {
   };
 }
 
-export function editLocation(dataLocation) {
-  console.log('editLocationAction');
-  let lsList = {},lid=localStorage.getItem('LocationId');
-  lsList[lid] = dataLocation;
-  localStorage.setItem('Locations',JSON.stringify(lsList));
+export function editLocation(lid,dataLocation) {
+  console.log('editLocationAction: ',dataLocation);
+  localStorage.setItem('Locations',JSON.stringify(dataLocation));
   return function (dispatch) {
     return dispatch({
       type: types.EDIT_LOCATION,
