@@ -77,10 +77,17 @@ class Locations extends React.Component {
 
   constructor() {
     super();
-    this.state = {};
+    this.state = {
+      isThereCategories: false
+    };
+  }
+
+  componentWillMount(){
+    (localStorage.getItem('Categories') == null) &&  this.setState({isThereCategories: !this.state.isThereCategories});
   }
 
   componentDidMount(){
+    console.log(11,this.state.isThereCategories);
     console.log(localStorage.getItem('Locations'));
     (this.props.locationsList.count() == 0) && this.props.actions.initialLocationsList();
     console.log('render locations LS: ',JSON.parse(localStorage.getItem('Locations')));
@@ -110,7 +117,7 @@ class Locations extends React.Component {
   render(){
     return (
       <div>
-        <MainToolbar currentId = {this.props.currentId} actions={this.props.actions} toggleCategories = {false}/>
+        <MainToolbar currentId = {this.props.currentId} actions={this.props.actions} toggleCategories = {false} disabledButtons = {this.state.isThereCategories}/>
         <div className="categories-view">
           <div className="category-list">
             <MuiThemeProvider>

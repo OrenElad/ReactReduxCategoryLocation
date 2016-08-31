@@ -5,7 +5,6 @@ export function initialCategoriesList() {
   console.log('initialCategoriesListAction');
   return function (dispatch) {
     let data = JSON.parse(localStorage.getItem('Categories'));
-    localStorage.setItem('AddedCategory',['School'])
     return dispatch({
       type: types.INITIAL_CATEGORIES_LIST,
       data

@@ -82,16 +82,17 @@ class Categories extends React.Component {
   }
 
   componentDidMount(){
-    console.log(localStorage.getItem('Categories'));
+    let isThereCategories = (typeof localStorage.getItem('AddedCategory') !== 'string'); //is there any category?
+    if(isThereCategories) return;
     (this.props.categoriesList.count() == 0) && this.props.actions.initialCategoriesList();
     let categoriesLocal = JSON.parse(localStorage.getItem('Categories')),
       hasValue = false;
     _.forEach(categoriesLocal, function(value,key){
       if(localStorage.getItem('AddedCategory') == value){
         hasValue = true;
-      }
+      };
     });
-    !hasValue && this.props.actions.addCategory(localStorage.getItem('AddedCategory'));
+    !hasValue &&  this.props.actions.addCategory(localStorage.getItem('AddedCategory'));
   }
 
   renderCategoriesList(){
