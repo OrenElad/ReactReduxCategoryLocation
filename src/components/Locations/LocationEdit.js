@@ -221,6 +221,7 @@ class LocationEdit extends React.Component {
                 errorText={this.state.errorCoordinateY}
                 onChange={this.handleCoordinateYChange}/>
             </MuiThemeProvider>
+            <p>You must choose Category</p>
             <MuiThemeProvider >
               <SelectField
                 value={this.state.selectFieldValue || 'Choose your category'}

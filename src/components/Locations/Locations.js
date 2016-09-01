@@ -18,6 +18,7 @@ import Footer from '../Footer.js';
 function mapStateToProps(state) {
   return {
     locationsList: state.locations.get("locations"),
+    categoriesList: state.categories.get("categories"),
     currentId: state.locations.get("currentId")
   };
 }
@@ -80,6 +81,7 @@ class Locations extends React.Component {
     this.state = {
       isThereCategories: false,
       isSort: false,
+      isGroup: false,
       markers: [{
         position: {
           lat: 25.0112183,
@@ -114,11 +116,28 @@ class Locations extends React.Component {
   };
 
   renderLocationsList(){
-    let sortedMap = this.props.locationsList;
+    let orderType = this.props.locationsList, self = this;
     if(this.state.isSort){
-      sortedMap = this.props.locationsList.sortBy(location => location.name );
+      orderType  = this.props.locationsList.sortBy(location => location.name );
     }
-    return sortedMap.map(function (location,index) {
+    if(this.state.isGroup){
+      orderType  = this.props.locationsList.groupBy(location => location.cid);
+      return orderType.map((category,index)  =>{
+        let categories = self.props.categoriesList.get(index);
+        return (<div key= {index}>
+                <h3 className ="locations-by-group" key= {index}>{categories}</h3>
+                  {category.map((location, index)=>
+                    <ListItem
+                      key= {index}
+                      value= {index}
+                      primaryText={location.name}
+                      leftIcon={<MdChevronRight/>}>
+                    </ListItem>).toArray()}
+                </div>)
+
+      }).toArray()
+    }
+   return orderType.map(function (location,index) {
       return <ListItem
         key= {index}
         value= {index}
@@ -128,8 +147,13 @@ class Locations extends React.Component {
     }).toArray()
   };
 
-  handleSort =() => {
+  handleSort = () => {
     this.setState({isSort:!this.state.isSort});
+  };
+
+  handleGroup = () => {
+    this.setState({isGroup:!this.state.isGroup});
+
   }
 
   handleMapClick(event) {
@@ -139,24 +163,17 @@ class Locations extends React.Component {
         {
           position: event.latLng,
           defaultAnimation: 2,
-          key: Date.now(), // Add a key property for: http://fb.me/react-warning-keys
-        },
-      ],
+          key: Date.now()
+        }
+      ]
     });
     this.setState({ markers });
   }
 
   handleMarkerRightclick(index, event) {
-    /*
-     * All you modify is data, and the view is driven by data.
-     * This is so called data-driven-development. (And yes, it's now in
-     * web front end and even with google maps API.)
-     */
     let { markers } = this.state;
     markers = update(markers, {
-      $splice: [
-        [index, 1],
-      ],
+      $splice: [[index, 1]]
     });
     this.setState({ markers });
   }
@@ -171,14 +188,13 @@ class Locations extends React.Component {
               <p className="category-details">
                 {typeof local !== 'undefined'
                 && `Latitude: ${local.coordinateX} Longitude: ${local.coordinateY}`}</p>
-              <section style={{ height: `60%`,width: `60%`,position: `absolute` }}>
+              <section style={{ height: `70%`,width: `50%`,position: `absolute` }}>
                 <GoogleMapLoader
                   containerElement={<div
-                                      style={{ height: `60%`, width: `60%`,position: `absolute` }}
+                                      style={{ height: `70%`, width: `50%`,position: `absolute` }}
                                     />}
                   googleMapElement={
                 <GoogleMap
-                  ref={(map) => console.log(map)}
                   defaultZoom={15}
                   center={{ lat: this.state.gmLat, lng: this.state.gmLng }}
                   onClick={this.handleMapClick.bind(this)}
@@ -213,6 +229,7 @@ class Locations extends React.Component {
           <Toggle
             label="Group"
             style = {{maxWidth: 100, paddingLeft: 50, paddingTop:20}}
+            onToggle = {this.handleGroup}
           />
         </MuiThemeProvider>
         </div>

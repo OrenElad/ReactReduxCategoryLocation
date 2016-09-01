@@ -206,7 +206,7 @@ class LocationAdd extends React.Component {
                     errorText={this.state.errorCoordinateY}
                     onChange={this.handleCoordinateYChange}/>
                 </MuiThemeProvider>
-                <p>Choose Category</p>
+                <p>You must choose Category</p>
                 <MuiThemeProvider >
                   <SelectField
                     value={this.state.selectFieldIndex || 1}

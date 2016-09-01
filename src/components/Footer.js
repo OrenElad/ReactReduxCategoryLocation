@@ -13,7 +13,15 @@ import FaLocationArrow from 'react-icons/lib/fa/location-arrow';
 class MainToolbar extends React.Component {
   constructor() {
     super();
-    this.state = {sliderIndex:0};
+    this.state = {
+      sliderIndex:0,
+      children:null
+    };
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      children: nextProps.children
+    });
   }
 
   componentDidUpdate(prevProps,prevState){

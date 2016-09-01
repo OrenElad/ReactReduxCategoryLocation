@@ -1,5 +1,5 @@
 import React, { PropTypes } from 'react';
-import { Route, Router, browserHistory } from 'react-router';
+import { Route, Router, browserHistory ,hashHistory} from 'react-router';
 import Categories from './Category/Categories';
 import CategoryEdit from './Category/CategoryEdit';
 import CategoryAdd from './Category/CategoryAdd';
