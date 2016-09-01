@@ -97,3 +97,10 @@ td.fuel-savings-label { width: 175px; }
   bottom: 0.1vw;
   width:100%;
 }
+.sort-locations {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
+
+}

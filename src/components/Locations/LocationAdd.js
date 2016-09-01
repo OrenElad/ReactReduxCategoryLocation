@@ -56,6 +56,7 @@ class LocationAdd extends React.Component {
       addCoordinateXValue: null,
       addCoordinateYValue: null,
       selectFieldValue: null,
+      selectFieldIndex: 1,
       enableSave: true,
       errorName: "",
       errorAddress: "",
@@ -71,7 +72,6 @@ class LocationAdd extends React.Component {
 
   }
   componentDidUpdate(prevProps,prevState) {
-    console.log(this.state.enableSave);
     let locationData = {};
     if (prevState.selectFieldValue !== this.state.selectFieldValue) {
       let locationsLocal = JSON.parse(localStorage.getItem('Locations')),
@@ -118,7 +118,6 @@ class LocationAdd extends React.Component {
     handleCoordinateXChange = (event) => {
       let latStr = event.target.value,
           latNum = Number.parseInt(event.target.value);
-      console.log(latStr.match(this.regex));
       (latStr.match(this.regex) === null || latNum < -180 || latNum > 180) ?
         this.setState({errorCoordinateX:"Please enter numbers -180 to 180"}) :
         this.setState({errorCoordinateX:""});
@@ -128,7 +127,6 @@ class LocationAdd extends React.Component {
     handleCoordinateYChange = (event) => {
       let latStr = event.target.value,
         latNum = Number.parseInt(event.target.value);
-      console.log(latStr.match(this.regex));
       (latStr.match(this.regex) === null || latNum < -90 || latNum > 90) ?
         this.setState({errorCoordinateY:"Please enter numbers -90 to 90"}) :
         this.setState({errorCoordinateY:""});
@@ -136,9 +134,10 @@ class LocationAdd extends React.Component {
       Object.assign(this.locationAddData,{coordinateY:event.target.value});
     };
     handleSelectFieldChange = (event, index, value) => {
+      console.log(11, event, index, value);
+      this.setState({selectFieldIndex: index});
       this.setState({selectFieldValue: value});
       Object.assign(this.locationAddData,{cid: value});
-      console.log(this.locationAddData);
     };
 
 
@@ -207,11 +206,11 @@ class LocationAdd extends React.Component {
                     errorText={this.state.errorCoordinateY}
                     onChange={this.handleCoordinateYChange}/>
                 </MuiThemeProvider>
+                <p>Choose Category</p>
                 <MuiThemeProvider >
                   <SelectField
-                    value={this.state.selectFieldValue || 'Choose your category'}
-                    onChange={this.handleSelectFieldChange}
-                  >
+                    value={this.state.selectFieldIndex || 1}
+                    onChange={this.handleSelectFieldChange}>
                     {this.getCategoriesList()}
                   </SelectField>
 

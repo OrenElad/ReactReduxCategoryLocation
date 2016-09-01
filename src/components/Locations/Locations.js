@@ -8,9 +8,7 @@ import {Map} from 'immutable';
 import * as locationsActions from '../../actions/locationsActions';
 var _ = require('lodash');
 import {GoogleMapLoader, GoogleMap, Marker} from "react-google-maps";
-
-
-
+import Toggle from 'material-ui/Toggle';
 import {List, ListItem,MakeSelectable} from 'material-ui/List';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MdChevronRight from 'react-icons/lib/md/chevron-right';
@@ -81,6 +79,7 @@ class Locations extends React.Component {
     super();
     this.state = {
       isThereCategories: false,
+      isSort: false,
       markers: [{
         position: {
           lat: 25.0112183,
@@ -115,7 +114,11 @@ class Locations extends React.Component {
   };
 
   renderLocationsList(){
-    return this.props.locationsList.map(function (location,index) {
+    let sortedMap = this.props.locationsList;
+    if(this.state.isSort){
+      sortedMap = this.props.locationsList.sortBy(location => location.name );
+    }
+    return sortedMap.map(function (location,index) {
       return <ListItem
         key= {index}
         value= {index}
@@ -124,6 +127,10 @@ class Locations extends React.Component {
         className="list-item"/>
     }).toArray()
   };
+
+  handleSort =() => {
+    this.setState({isSort:!this.state.isSort});
+  }
 
   handleMapClick(event) {
     let { markers } = this.state;
@@ -163,7 +170,7 @@ class Locations extends React.Component {
                 && `Name:  ${local.name} Address:  ${local.address}`}</p>
               <p className="category-details">
                 {typeof local !== 'undefined'
-                && `Coordinate X: ${local.coordinateX} Coordinate Y: ${local.coordinateY}`}</p>
+                && `Latitude: ${local.coordinateX} Longitude: ${local.coordinateY}`}</p>
               <section style={{ height: `60%`,width: `60%`,position: `absolute` }}>
                 <GoogleMapLoader
                   containerElement={<div
@@ -194,6 +201,21 @@ class Locations extends React.Component {
     return (
       <div>
         <MainToolbar currentId = {this.props.currentId} actions={this.props.actions} toggleCategories = {false} disabledButtons = {this.state.isThereCategories}/>
+        <div className="sort-locations">
+        <MuiThemeProvider>
+          <Toggle
+            label="Sort"
+            style = {{maxWidth: 100, paddingLeft: 50, paddingTop:20}}
+            onToggle = {this.handleSort}
+          />
+        </MuiThemeProvider>
+        <MuiThemeProvider>
+          <Toggle
+            label="Group"
+            style = {{maxWidth: 100, paddingLeft: 50, paddingTop:20}}
+          />
+        </MuiThemeProvider>
+        </div>
         <div className="categories-view">
           <div className="category-list">
             <MuiThemeProvider>
@@ -214,6 +236,7 @@ class Locations extends React.Component {
       </div>
     );
   }
+
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Locations);
