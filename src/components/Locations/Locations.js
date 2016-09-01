@@ -6,7 +6,9 @@ import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Map} from 'immutable';
 import * as locationsActions from '../../actions/locationsActions';
-var _ = require('lodash')
+var _ = require('lodash');
+import {GoogleMapLoader, GoogleMap, Marker} from "react-google-maps";
+
 
 
 import {List, ListItem,MakeSelectable} from 'material-ui/List';
@@ -78,7 +80,17 @@ class Locations extends React.Component {
   constructor() {
     super();
     this.state = {
-      isThereCategories: false
+      isThereCategories: false,
+      markers: [{
+        position: {
+          lat: 25.0112183,
+          lng: 121.52067570000001
+        },
+        key: `Taiwan`,
+        defaultAnimation: 2
+      }],
+      gmLat: 25.0,
+      gmLng: 121.5
     };
   }
 
@@ -87,11 +99,20 @@ class Locations extends React.Component {
   }
 
   componentDidMount(){
-    console.log(11,this.state.isThereCategories);
     console.log(localStorage.getItem('Locations'));
     (this.props.locationsList.count() == 0) && this.props.actions.initialLocationsList();
     console.log('render locations LS: ',JSON.parse(localStorage.getItem('Locations')));
-  }
+  };
+
+  componentWillReceiveProps(nextProps){
+    if(nextProps.currentId !== this.props.currentId) {
+      let local = {},lat,lng;
+      Object.assign(local,this.props.locationsList.get(localStorage.getItem('LocationId')));
+      lat = parseFloat(local.coordinateY);
+      lng = parseFloat(local.coordinateX);
+      this.setState({gmLat: lat, gmLng: lng});
+    }
+  };
 
   renderLocationsList(){
     return this.props.locationsList.map(function (location,index) {
@@ -102,18 +123,71 @@ class Locations extends React.Component {
         leftIcon={<MdChevronRight/>}
         className="list-item"/>
     }).toArray()
+  };
+
+  handleMapClick(event) {
+    let { markers } = this.state;
+    markers = update(markers, {
+      $push: [
+        {
+          position: event.latLng,
+          defaultAnimation: 2,
+          key: Date.now(), // Add a key property for: http://fb.me/react-warning-keys
+        },
+      ],
+    });
+    this.setState({ markers });
   }
+
+  handleMarkerRightclick(index, event) {
+    /*
+     * All you modify is data, and the view is driven by data.
+     * This is so called data-driven-development. (And yes, it's now in
+     * web front end and even with google maps API.)
+     */
+    let { markers } = this.state;
+    markers = update(markers, {
+      $splice: [
+        [index, 1],
+      ],
+    });
+    this.setState({ markers });
+  }
+
   getLocationDetails (){
     let local = {};
     Object.assign(local,this.props.locationsList.get(this.props.currentId));
-
+    if(!local.hasOwnProperty('name')) return;
     return (<div><p className="category-details">
-              {typeof this.props.locationsList.get(this.props.currentId) !== 'undefined'
+              {typeof local !== 'undefined'
                 && `Name:  ${local.name} Address:  ${local.address}`}</p>
               <p className="category-details">
-                {typeof this.props.locationsList.get(this.props.currentId) !== 'undefined'
+                {typeof local !== 'undefined'
                 && `Coordinate X: ${local.coordinateX} Coordinate Y: ${local.coordinateY}`}</p>
-            </div>)
+              <section style={{ height: `60%`,width: `60%`,position: `absolute` }}>
+                <GoogleMapLoader
+                  containerElement={<div
+                                      style={{ height: `60%`, width: `60%`,position: `absolute` }}
+                                    />}
+                  googleMapElement={
+                <GoogleMap
+                  ref={(map) => console.log(map)}
+                  defaultZoom={15}
+                  center={{ lat: this.state.gmLat, lng: this.state.gmLng }}
+                  onClick={this.handleMapClick.bind(this)}
+                >
+                  {this.state.markers.map((marker, index) => (
+                    <Marker
+                      {...marker}
+                      onRightclick={() => this.handleMarkerRightclick.bind(this)}
+                    />
+                  ))}
+                </GoogleMap>
+              }
+                />
+              </section>
+
+          </div>)
   };
 
   render(){

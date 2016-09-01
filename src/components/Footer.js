@@ -19,10 +19,8 @@ class MainToolbar extends React.Component {
   componentDidUpdate(prevProps,prevState){
     if(prevState.sliderIndex !== this.state.sliderIndex){
       if(this.state.sliderIndex === 0) {
-         console.log('/: ', this.state.sliderIndex);
          browserHistory.push('/');
       }else if (this.state.sliderIndex === 1){
-         console.log('/locations: ', this.state.sliderIndex);
          browserHistory.push('/locations');
       }
     }
