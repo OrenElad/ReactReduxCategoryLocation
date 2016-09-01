@@ -99,9 +99,9 @@ td.fuel-savings-label { width: 175px; }
 }
 .sort-locations {
   display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: baseline;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
 }
 .locations-by-group {
   padding-left: 5vw;

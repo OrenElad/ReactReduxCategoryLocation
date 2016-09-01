@@ -1,5 +1,5 @@
 /**
- * Created by oren on 8/29/16.
+ * Created by oren on 8/30/16.
  */
 import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
@@ -12,6 +12,7 @@ import Toggle from 'material-ui/Toggle';
 import {List, ListItem,MakeSelectable} from 'material-ui/List';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MdChevronRight from 'react-icons/lib/md/chevron-right';
+import Checkbox from 'material-ui/Checkbox';
 import MainToolbar from '../MainToolbar';
 import Footer from '../Footer.js';
 
@@ -219,18 +220,18 @@ class Locations extends React.Component {
         <MainToolbar currentId = {this.props.currentId} actions={this.props.actions} toggleCategories = {false} disabledButtons = {this.state.isThereCategories}/>
         <div className="sort-locations">
         <MuiThemeProvider>
-          <Toggle
-            label="Sort"
-            style = {{maxWidth: 100, paddingLeft: 50, paddingTop:20}}
-            onToggle = {this.handleSort}
-          />
+          <Checkbox
+            label="Sort A-Z"
+            style = {{maxWidth: 120, paddingLeft: 20, paddingTop:20}}
+            onCheck = {this.handleSort}
+            />
         </MuiThemeProvider>
         <MuiThemeProvider>
-          <Toggle
-            label="Group"
-            style = {{maxWidth: 100, paddingLeft: 50, paddingTop:20}}
-            onToggle = {this.handleGroup}
-          />
+          <Checkbox
+            label="Group by categories"
+            style = {{maxWidth: 220, paddingLeft: 20, paddingTop:5}}
+            onCheck = {this.handleGroup}
+            />
         </MuiThemeProvider>
         </div>
         <div className="categories-view">

@@ -1,5 +1,5 @@
 /**
- * Created by oren on 8/28/16.
+ * Created by oren on 8/30/16.
  */
 import React from 'react';
 import {Toolbar, ToolbarGroup,ToolbarTitle} from 'material-ui/Toolbar';
@@ -9,7 +9,7 @@ import { browserHistory } from 'react-router';
 
 
 class MainToolbar extends React.Component {
-  
+
   handleTouchTap(type){
     console.log(type);
     switch (type) {

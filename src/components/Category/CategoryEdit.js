@@ -1,5 +1,5 @@
 /**
- * Created by oren on 8/28/16.
+ * Created by oren on 8/30/16.
  */
 import React from 'react';
 import * as categoriesActions from '../../actions/categoriesActions';
