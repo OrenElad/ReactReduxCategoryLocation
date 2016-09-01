@@ -57,10 +57,10 @@ class LocationAdd extends React.Component {
       addCoordinateYValue: null,
       selectFieldValue: null,
       enableSave: true,
-      errorName: "Name is required",
-      errorAddress: "Address is required",
-      errorCoordinateX: "Coordinate X is required",
-      errorCoordinateY: "Coordinate Y is required"
+      errorName: "",
+      errorAddress: "",
+      errorCoordinateX: "",
+      errorCoordinateY: ""
     };
     this.locationAddData = {};
     this.regex = /^-?[0-9]\d*(\.\d+)?$/;

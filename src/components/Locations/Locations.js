@@ -106,14 +106,16 @@ class Locations extends React.Component {
   getLocationDetails (){
     let local = {};
     Object.assign(local,this.props.locationsList.get(this.props.currentId));
+
     return (<div><p className="category-details">
               {typeof this.props.locationsList.get(this.props.currentId) !== 'undefined'
                 && `Name:  ${local.name} Address:  ${local.address}`}</p>
               <p className="category-details">
                 {typeof this.props.locationsList.get(this.props.currentId) !== 'undefined'
-                && `Coordinate X: ${local.coordinateX} Coordinate Y: ${local.coordinateX}`}</p>
+                && `Coordinate X: ${local.coordinateX} Coordinate Y: ${local.coordinateY}`}</p>
             </div>)
   };
+
   render(){
     return (
       <div>

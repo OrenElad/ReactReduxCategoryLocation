@@ -56,17 +56,27 @@ class LocationEdit extends React.Component {
       addCoordinateXValue: null,
       addCoordinateYValue: null,
       selectFieldValue: null,
-      enableSave: false
+      enableSave: true,
+      errorName: "",
+      errorAddress: "",
+      errorCoordinateX: "",
+      errorCoordinateY: ""
     };
     this.locationAddData = {};
     this.editLocationObj = {};
+    this.regex = /^-?[0-9]\d*(\.\d+)?$/;
+
   }
 
   componentWillMount(){
+    let stateObj = this.props.locationsList.get(localStorage.getItem('LocationId'));
+    this.setState({addNameValue: stateObj.name,
+                   addAddressValue: stateObj.address,
+                   addCoordinateXValue: stateObj.coordinateX,
+                   addCoordinateYValue: stateObj.coordinateY});
+
     Object.assign(this.editLocationObj,this.props.locationsList.get(localStorage.getItem('LocationId')));
     Object.assign(this.locationAddData,JSON.parse(localStorage.getItem('Locations')));
-    console.log(111,this.locationAddData);
-
   }
   componentDidMount(){
     (this.props.categoriesList.count() == 0) && this.props.actions.initialCategoriesList();
@@ -85,24 +95,52 @@ class LocationEdit extends React.Component {
     }
     if (prevState.addNameValue !== this.state.addNameValue) {
       Object.assign({}, locationData, this.state.addNameValue);
+    };
+
+    if(typeof this.state.addNameValue === 'string'
+      && typeof this.state.addAddressValue === 'string'
+      && typeof this.state.addCoordinateXValue === 'string'
+      && typeof this.state.addCoordinateYValue === 'string'
+      && typeof this.state.selectFieldValue === 'string'
+      && this.state.enableSave){
+      this.setState({enableSave: false});
     }
+
 
   }
 
   handleNameChange = (event) => {
+    (event.target.value.length < 2) ?
+      this.setState({errorName:"Please enter name with at list 2 letters"}) :
+      this.setState({errorName:""});
     this.setState({addNameValue: event.target.value});
     Object.assign(this.editLocationObj,{name:event.target.value});
 
   };
   handleAddressChange = (event) => {
+    (event.target.value.length < 2) ?
+      this.setState({errorAddress:"Please enter address with at list 2 letters"}) :
+      this.setState({errorAddress:""});
     this.setState({addAddressValue: event.target.value});
     Object.assign(this.editLocationObj,{address:event.target.value});
   };
   handleCoordinateXChange = (event) => {
+    let latStr = event.target.value,
+      latNum = Number.parseInt(event.target.value);
+    console.log(latStr.match(this.regex));
+    (latStr.match(this.regex) === null || latNum < -180 || latNum > 180) ?
+      this.setState({errorCoordinateX:"Please enter numbers -180 to 180"}) :
+      this.setState({errorCoordinateX:""});
     this.setState({addCoordinateXValue: event.target.value});
     Object.assign(this.editLocationObj,{coordinateX:event.target.value});
   };
   handleCoordinateYChange = (event) => {
+    let latStr = event.target.value,
+      latNum = Number.parseInt(event.target.value);
+    console.log(latStr.match(this.regex));
+    (latStr.match(this.regex) === null || latNum < -90 || latNum > 90) ?
+      this.setState({errorCoordinateY:"Please enter numbers -90 to 90"}) :
+      this.setState({errorCoordinateY:""});
     this.setState({addCoordinateYValue: event.target.value});
     Object.assign(this.editLocationObj,{coordinateY:event.target.value});
   };
@@ -110,17 +148,6 @@ class LocationEdit extends React.Component {
     this.setState({selectFieldValue: value});
     Object.assign(this.editLocationObj,{cid: value});
     console.log('edit object: ',this.editLocationObj);
-
-
-    if(this.state.addNameValue !== null
-      && this.state.addAddressValue !== null
-      && this.state.addCoordinateXValue !== null
-      && this.state.addCoordinateYValue !== null
-      && this.state.selectFieldValue !== null ){
-      this.setState({enableSave: false});
-    };
-
-
   };
 
 
@@ -166,6 +193,7 @@ class LocationEdit extends React.Component {
                 hintText="Name"
                 floatingLabelText="Enter Location Name"
                 defaultValue = { this.editLocationObj.name }
+                errorText={this.state.errorName}
                 onChange={this.handleNameChange}/>
             </MuiThemeProvider>
             <MuiThemeProvider>
@@ -173,6 +201,7 @@ class LocationEdit extends React.Component {
                 hintText="Address"
                 floatingLabelText="Enter Location Address"
                 defaultValue = { this.editLocationObj.address }
+                errorText={this.state.errorAddress}
                 onChange={this.handleAddressChange}
                 />
             </MuiThemeProvider>
@@ -181,6 +210,7 @@ class LocationEdit extends React.Component {
                 hintText="Coordinate X"
                 floatingLabelText="Enter Location Coordinate X"
                 defaultValue = { this.editLocationObj.coordinateX }
+                errorText={this.state.errorCoordinateX}
                 onChange={this.handleCoordinateXChange}/>
             </MuiThemeProvider>
             <MuiThemeProvider>
@@ -188,6 +218,7 @@ class LocationEdit extends React.Component {
                 hintText="Coordinate Y"
                 floatingLabelText="Enter Location Coordinate Y"
                 defaultValue = { this.editLocationObj.coordinateY }
+                errorText={this.state.errorCoordinateY}
                 onChange={this.handleCoordinateYChange}/>
             </MuiThemeProvider>
             <MuiThemeProvider >
