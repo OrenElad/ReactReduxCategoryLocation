@@ -1,6 +1,4 @@
-/**
- * Created by oren on 8/30/16.
- */
+
 import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';

@@ -1,7 +1,4 @@
-/**
- * Created by oren on 8/29/16.
- */
-"use strict"
+
 import * as types from '../constants/actionTypes';
 var _ = require('lodash');
 

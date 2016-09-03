@@ -1,6 +1,4 @@
-/**
- * Created by oren on 8/29/16.
- */
+
 import {fromJS, Record, OrderedMap} from 'immutable';
 import initialState from './initialState';
 

@@ -1,8 +1,3 @@
-/**
- * Created by oren on 8/28/16.
- */
-
-"use strict";
 
 import React, { Component } from 'react';
 import Categories from '../components/Category/Categories';

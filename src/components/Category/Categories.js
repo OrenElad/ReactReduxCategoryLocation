@@ -1,7 +1,4 @@
 
-/**
- * Created by oren on 8/29/16.
- */
 import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -97,6 +94,7 @@ class Categories extends React.Component {
 
   renderCategoriesList(){
     return this.props.categoriesList.map(function (category,index) {
+      console.log(11,category,index);
         return <ListItem
                   key= {index}
                   value= {index}
