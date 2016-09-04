@@ -53,7 +53,7 @@ class LocationForm extends React.Component {
       addAddressValue: null,
       addCoordinateXValue: null,
       addCoordinateYValue: null,
-      selectFieldValue: 1,
+      selectFieldValue: null,
       selectFieldIndex: 1,
       enableSave: true,
       errorName: "",
@@ -76,9 +76,6 @@ class LocationForm extends React.Component {
         addCoordinateYValue: stateObj.coordinateY
       });
 
-      setTimeout(() => {
-        console.log(11,this.state.addNameValue);
-      },300);
       Object.assign(this.editLocationObj, this.props.locationsList.get(localStorage.getItem('LocationId')));
       Object.assign(this.locationAddData, JSON.parse(localStorage.getItem('Locations')));
     }
@@ -158,7 +155,6 @@ class LocationForm extends React.Component {
 
   };
   handleSelectFieldChange = (event, index, value) => {
-    console.log(11, event, index, value);
     this.setState({selectFieldIndex: index});
     this.setState({selectFieldValue: value});
     (this.props.type === "Add") ?
@@ -251,7 +247,8 @@ class LocationForm extends React.Component {
             <MuiThemeProvider>
               <DropDownMenu
                 style = {{width: 200}}
-                value={this.state.selectFieldIndex || 1}
+                value={this.state.selectFieldIndex || 0}
+                openImmediately={true}
                 onChange={this.handleSelectFieldChange}>
                 {this.getCategoriesList()}
               </DropDownMenu>
