@@ -53,7 +53,7 @@ class LocationForm extends React.Component {
       addAddressValue: null,
       addCoordinateXValue: null,
       addCoordinateYValue: null,
-      selectFieldValue: null,
+      selectFieldValue: 1,
       selectFieldIndex: 1,
       enableSave: true,
       errorName: "",

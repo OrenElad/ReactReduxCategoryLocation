@@ -1,4 +1,3 @@
-
 import React , {PropTypes}from 'react';
 import MainToolbar from '../MainToolbar';
 import Footer from '../Footer';

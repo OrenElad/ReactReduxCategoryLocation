@@ -1,4 +1,3 @@
-
 import React, {PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
@@ -6,8 +5,10 @@ import {Map} from 'immutable';
 import * as locationsActions from '../../actions/locationsActions';
 var _ = require('lodash');
 import {GoogleMapLoader, GoogleMap, Marker} from "react-google-maps";
-import Toggle from 'material-ui/Toggle';
-import {List, ListItem,MakeSelectable} from 'material-ui/List';
+import RaisedButton from 'material-ui/RaisedButton';
+import Popover from 'material-ui/Popover';
+import Menu from 'material-ui/Menu';
+import MenuItem from 'material-ui/MenuItem';import {List, ListItem,MakeSelectable} from 'material-ui/List';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import MdChevronRight from 'react-icons/lib/md/chevron-right';
 import Checkbox from 'material-ui/Checkbox';
@@ -81,6 +82,8 @@ class Locations extends React.Component {
       isThereCategories: false,
       isSort: false,
       isGroup: false,
+      open: false,
+      viewTypeValue: 0,
       markers: [{
         position: {
           lat: 25.0112183,
@@ -181,18 +184,20 @@ class Locations extends React.Component {
     let local = {};
     Object.assign(local,this.props.locationsList.get(this.props.currentId));
     if(!local.hasOwnProperty('name')) return;
-    return (<div><p className="category-details">
-              {typeof local !== 'undefined'
-                && `Name:  ${local.name} Address:  ${local.address}`}</p>
-              <p className="category-details">
-                {typeof local !== 'undefined'
-                && `Latitude: ${local.coordinateX} Longitude: ${local.coordinateY}`}</p>
-              <section style={{ height: `70%`,width: `50%`,position: `absolute` }}>
-                <GoogleMapLoader
-                  containerElement={<div
-                                      style={{ height: `70%`, width: `50%`,position: `absolute` }}
-                                    />}
-                  googleMapElement={
+    if(this.state.viewTypeValue == 1) {
+      return (<div><p className="category-details">
+        {typeof local !== 'undefined'
+        && `Name:  ${local.name} Address:  ${local.address}`}</p>
+        <p className="category-details">
+          {typeof local !== 'undefined'
+          && `Latitude: ${local.coordinateX} Longitude: ${local.coordinateY}`}</p>
+      </div>)
+    }else if(this.state.viewTypeValue == 2){
+      return (<div>
+        <section style={{ height: `70%`,width: `50%`,position: `absolute` }}>
+          <GoogleMapLoader
+            containerElement={<div style={{ height: `70%`, width: `50%`,position: `absolute` }}/>}
+            googleMapElement={
                 <GoogleMap
                   defaultZoom={15}
                   center={{ lat: this.state.gmLat, lng: this.state.gmLng }}
@@ -206,12 +211,50 @@ class Locations extends React.Component {
                   ))}
                 </GoogleMap>
               }
-                />
-              </section>
+          />
+        </section>
+      </div>)
 
-          </div>)
+    }
+  };
+  handleTouchTap = (event) => {
+    // This prevents ghost click.
+    event.preventDefault();
+
+    this.setState({
+      open: true,
+      anchorEl: event.currentTarget,
+    });
   };
 
+  handleRequestClose = () => {this.setState({ open: false });};
+
+  handleLocationViewChange = (event, index, value) => this.setState({viewTypeValue: index});
+
+  toggleLocationView(){
+    return ( <div>
+              <MuiThemeProvider>
+                <RaisedButton
+                  onTouchTap={this.handleTouchTap}
+                  label="Location details"
+                />
+              </MuiThemeProvider>
+              <MuiThemeProvider>
+                <Popover
+                  open={this.state.open}
+                  anchorEl={this.state.anchorEl}
+                  anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                  targetOrigin={{horizontal: 'left', vertical: 'top'}}
+                  onRequestClose={this.handleRequestClose}
+                >
+                  <Menu onChange={this.handleLocationViewChange}>
+                    <MenuItem value={1} key={1} primaryText="Text Definition" />
+                    <MenuItem value={2} key={2} primaryText="Google Map" />
+                  </Menu>
+                </Popover>
+              </MuiThemeProvider>
+            </div>)
+  }
   render(){
     return (
       <div>
@@ -244,7 +287,7 @@ class Locations extends React.Component {
             </MuiThemeProvider>
           </div>
           <div className="category-view">
-            <h2 className="category-details-header">Location details</h2>
+            {this.toggleLocationView()}
             {this.getLocationDetails()}
           </div>
         </div>
